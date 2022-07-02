@@ -13,6 +13,15 @@
 		2A54E584282E8814004E1350 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A54E582282E8814004E1350 /* Main.storyboard */; };
 		2A54E586282E8815004E1350 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A54E585282E8815004E1350 /* Assets.xcassets */; };
 		2A54E589282E8815004E1350 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A54E587282E8815004E1350 /* LaunchScreen.storyboard */; };
+		2A54E594282E8860004E1350 /* Login_viewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E593282E8860004E1350 /* Login_viewController.swift */; };
+		2A54E596282E8879004E1350 /* login_viewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E595282E8879004E1350 /* login_viewModel.swift */; };
+		2A54E598282E888B004E1350 /* login_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E597282E888B004E1350 /* login_model.swift */; };
+		2A54E59A282E8B5F004E1350 /* login_viewModel_protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E599282E8B5F004E1350 /* login_viewModel_protocol.swift */; };
+		2A54E59E282E8E53004E1350 /* Login_model_protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E59D282E8E53004E1350 /* Login_model_protocol.swift */; };
+		2A54E5A2282E9887004E1350 /* LoginPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E5A1282E9887004E1350 /* LoginPanel.swift */; };
+		2A54E5A4282E9A0A004E1350 /* Login_display_protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E5A3282E9A0A004E1350 /* Login_display_protocol.swift */; };
+		2A54E5A8282FE212004E1350 /* CheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E5A7282FE212004E1350 /* CheckBox.swift */; };
+		2A54E5AA282FE3B6004E1350 /* LoginViewController_protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A54E5A9282FE3B6004E1350 /* LoginViewController_protocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +33,15 @@
 		2A54E585282E8815004E1350 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A54E588282E8815004E1350 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A54E58A282E8815004E1350 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A54E593282E8860004E1350 /* Login_viewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login_viewController.swift; sourceTree = "<group>"; };
+		2A54E595282E8879004E1350 /* login_viewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_viewModel.swift; sourceTree = "<group>"; };
+		2A54E597282E888B004E1350 /* login_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_model.swift; sourceTree = "<group>"; };
+		2A54E599282E8B5F004E1350 /* login_viewModel_protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login_viewModel_protocol.swift; sourceTree = "<group>"; };
+		2A54E59D282E8E53004E1350 /* Login_model_protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login_model_protocol.swift; sourceTree = "<group>"; };
+		2A54E5A1282E9887004E1350 /* LoginPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPanel.swift; sourceTree = "<group>"; };
+		2A54E5A3282E9A0A004E1350 /* Login_display_protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login_display_protocol.swift; sourceTree = "<group>"; };
+		2A54E5A7282FE212004E1350 /* CheckBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckBox.swift; sourceTree = "<group>"; };
+		2A54E5A9282FE3B6004E1350 /* LoginViewController_protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController_protocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				2A54E57B282E8814004E1350 /* Unverkocht */,
+				2A54E590282E881F004E1350 /* LoginController */,
 				2A54E57A282E8814004E1350 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +84,46 @@
 				2A54E58A282E8815004E1350 /* Info.plist */,
 			);
 			path = Unverkocht;
+			sourceTree = "<group>";
+		};
+		2A54E590282E881F004E1350 /* LoginController */ = {
+			isa = PBXGroup;
+			children = (
+				2A54E593282E8860004E1350 /* Login_viewController.swift */,
+				2A54E5A9282FE3B6004E1350 /* LoginViewController_protocol.swift */,
+				2A54E59C282E8D6E004E1350 /* ViewModel */,
+				2A54E59B282E8D63004E1350 /* Model */,
+				2A54E591282E8832004E1350 /* Display */,
+			);
+			path = LoginController;
+			sourceTree = "<group>";
+		};
+		2A54E591282E8832004E1350 /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				2A54E5A1282E9887004E1350 /* LoginPanel.swift */,
+				2A54E5A7282FE212004E1350 /* CheckBox.swift */,
+				2A54E5A3282E9A0A004E1350 /* Login_display_protocol.swift */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
+		2A54E59B282E8D63004E1350 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2A54E597282E888B004E1350 /* login_model.swift */,
+				2A54E59D282E8E53004E1350 /* Login_model_protocol.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2A54E59C282E8D6E004E1350 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				2A54E595282E8879004E1350 /* login_viewModel.swift */,
+				2A54E599282E8B5F004E1350 /* login_viewModel_protocol.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +197,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A54E59A282E8B5F004E1350 /* login_viewModel_protocol.swift in Sources */,
+				2A54E594282E8860004E1350 /* Login_viewController.swift in Sources */,
+				2A54E5A4282E9A0A004E1350 /* Login_display_protocol.swift in Sources */,
+				2A54E598282E888B004E1350 /* login_model.swift in Sources */,
 				2A54E581282E8814004E1350 /* ViewController.swift in Sources */,
 				2A54E57D282E8814004E1350 /* AppDelegate.swift in Sources */,
+				2A54E596282E8879004E1350 /* login_viewModel.swift in Sources */,
+				2A54E5AA282FE3B6004E1350 /* LoginViewController_protocol.swift in Sources */,
+				2A54E5A8282FE212004E1350 /* CheckBox.swift in Sources */,
+				2A54E5A2282E9887004E1350 /* LoginPanel.swift in Sources */,
 				2A54E57F282E8814004E1350 /* SceneDelegate.swift in Sources */,
+				2A54E59E282E8E53004E1350 /* Login_model_protocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +360,6 @@
 				INFOPLIST_FILE = Unverkocht/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +387,6 @@
 				INFOPLIST_FILE = Unverkocht/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
