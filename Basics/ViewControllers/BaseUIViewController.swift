@@ -21,6 +21,7 @@ class BaseUIViewController: UIViewController, BaseVCProtocol{
     var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
         return view
     }()
     

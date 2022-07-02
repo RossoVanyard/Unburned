@@ -235,4 +235,18 @@ class HomeScreenViewController: BaseUIViewController, HomeScreenViewControllerPr
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.presentRecipe()
+    }
+    
+    func presentRecipe(){
+        let vc = RecipeViewController()
+        if #available(iOS 13.0, *) {
+            vc.modalPresentationStyle = .overFullScreen
+        } else {
+            // Fallback on earlier versions
+        }
+        self.present(vc, animated: true, completion: nil)
+    }
+    
 }
