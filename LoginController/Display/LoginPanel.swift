@@ -1,15 +1,15 @@
 //
 //  LoginPanel.swift
-//  Unverkocht
+//   Unburned
 //
-//  Created by Roland Vanhöfen on 13.05.22.
+//  Created by RossoVanyard  on 13.05.22.
 //
 
 import Foundation
 import UIKit
 
 
-class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
+class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate {
     
    
     //constraints for height
@@ -18,16 +18,19 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
     var emailTextFieldHeightAnchor: NSLayoutConstraint?
     var passwordTextFieldHeightAnchor: NSLayoutConstraint?
     var checkPasswordTextFieldHeightAnchor: NSLayoutConstraint?
-    var heigthCollapsed: CGFloat = 15 + 35 + 200 + 15
-    var heigthNonCollapsed: CGFloat = 15 + 35 + 100 + 15
     
-    override init(frame: CGRect) {
+    var vcDelegate: LoginDisplayDelegate?
+    var delegate: LoginViewModelProtocol
+    
+    init(frame: CGRect, delegate: LoginViewModelProtocol) {
+        self.delegate = delegate
         super.init(frame: frame)
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.setupLoginRegisterControl()
         self.setupInputsContainerView()
         self.setupInputsContainerViewInputs()
     }
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -35,46 +38,32 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
     
     //Segement Control -------------------------------
     
-    lazy var loginRegisterSegmentControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["Login","Register"])
-        sc.translatesAutoresizingMaskIntoConstraints = false
-        sc.tintColor = UIColor(red: 25/255, green: 41/255, blue: 61/255, alpha: 1)
-        sc.selectedSegmentIndex = 1
-        sc.addTarget(self, action: #selector(handleLoginRegisterChange), for: .valueChanged)
-        return sc
-    }()
     
     
-    @objc func handleLoginRegisterChange(){
+    
+    func changeInputContainerLayout(){
         
         //change height of inputContainerView
-        inputsContainerViewHeightAnchor?.constant = loginRegisterSegmentControl.selectedSegmentIndex == 0 ? 100 : 200
+        inputsContainerViewHeightAnchor?.constant = delegate.state == .Login ? 100 : 200
         
         //change height of nameTextField
         nameTextFieldHeightAnchor?.isActive = false
-        nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentControl.selectedSegmentIndex == 0 ? 0 : 1/4)
+        nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 0 : 1/4)
         nameTextFieldHeightAnchor?.isActive = true
             
         emailTextFieldHeightAnchor?.isActive = false
-        emailTextFieldHeightAnchor = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentControl.selectedSegmentIndex == 0 ? 1/2 : 1/4)
+        emailTextFieldHeightAnchor = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 1/2 : 1/4)
         emailTextFieldHeightAnchor?.isActive = true
         
         passwordTextFieldHeightAnchor?.isActive = false
-        passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentControl.selectedSegmentIndex == 0 ? 1/2 : 1/4)
+        passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 1/2 : 1/4)
         passwordTextFieldHeightAnchor?.isActive = true
         
         checkPasswordTextFieldHeightAnchor?.isActive = false
-        checkPasswordTextFieldHeightAnchor = checkPasswordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: loginRegisterSegmentControl.selectedSegmentIndex == 0 ?  0 : 1/4)
+        checkPasswordTextFieldHeightAnchor = checkPasswordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ?  0 : 1/4)
         checkPasswordTextFieldHeightAnchor?.isActive = true
     }
 
-    func setupLoginRegisterControl(){
-        self.addSubview(loginRegisterSegmentControl)
-        loginRegisterSegmentControl.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        loginRegisterSegmentControl.topAnchor.constraint(equalTo: self.topAnchor, constant: 15).isActive = true
-        loginRegisterSegmentControl.widthAnchor.constraint(equalTo: self.widthAnchor, constant: -30).isActive = true
-        loginRegisterSegmentControl.heightAnchor.constraint(equalToConstant: 35).isActive = true
-    }
     
     //inputsContainer ---------------------------------
     
@@ -106,16 +95,14 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         }
         self.inputsContainerViewConstraints = [
             inputsContainerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            inputsContainerView.topAnchor.constraint(equalTo: self.loginRegisterSegmentControl.bottomAnchor, constant: 15),
-            inputsContainerView.widthAnchor.constraint(equalTo: self.widthAnchor)
+            inputsContainerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            inputsContainerView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            inputsContainerView.heightAnchor.constraint(equalTo: self.heightAnchor)
         ]
           
-        inputsContainerViewHeightAnchor = inputsContainerView.heightAnchor.constraint(equalToConstant: 200)
-
         if let constraints = self.inputsContainerViewConstraints {
             NSLayoutConstraint.activate(constraints)
         }
-        inputsContainerViewHeightAnchor?.isActive = true
     }
     
     //inputsConteiner - input ------------------------------------------
@@ -128,6 +115,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         tf.autocapitalizationType = .none
         tf.spellCheckingType = .no
         tf.delegate = self
+        tf.tag = 0
         return tf
     }()
     
@@ -149,6 +137,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         tf.autocapitalizationType = .none
         tf.spellCheckingType = .no
         tf.delegate = self
+        tf.tag = 1
         return tf
     }()
     
@@ -165,6 +154,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.isSecureTextEntry = true
         tf.delegate = self
+        tf.tag = 2
         return tf
     }()
     
@@ -181,6 +171,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.isSecureTextEntry = true
         tf.delegate = self
+        tf.tag = 3
         return tf
     }()
     
@@ -189,7 +180,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         nameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         nameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
         nameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
+        nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 0 : 1/4)
         nameTextFieldHeightAnchor?.isActive = true
        
         nameSperatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
@@ -200,7 +191,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         emailTextField.topAnchor.constraint(equalTo: nameSperatorView.topAnchor).isActive = true
         emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        emailTextFieldHeightAnchor = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
+        emailTextFieldHeightAnchor = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 1/2 : 1/4)
         emailTextFieldHeightAnchor?.isActive = true
         
         
@@ -212,7 +203,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         passwordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: emailSperatorView.topAnchor).isActive = true
         passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
+        passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 1/2 : 1/4)
         passwordTextFieldHeightAnchor?.isActive = true
        
         
@@ -225,10 +216,36 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate{
         checkPasswordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
         checkPasswordTextField.topAnchor.constraint(equalTo: passwordSperatorView.topAnchor).isActive = true
         checkPasswordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        checkPasswordTextFieldHeightAnchor = checkPasswordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4)
+        checkPasswordTextFieldHeightAnchor = checkPasswordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: delegate.state == .Login ? 0 : 1/4)
         checkPasswordTextFieldHeightAnchor?.isActive = true
        
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        guard let text = textField.text else { return false}
+        switch textField.tag{
+        case 0:
+            print("name")
+            
+            self.delegate.model.name = text
+        case 1:
+            print("email")
+            self.delegate.model.email = text
+        case 2:
+            print("password")
+            self.delegate.model.password = text
+        case 3:
+            print("checkPassword")
+            self.delegate.model.passwordCheck = text
+        default:
+            print("")
+        }
+        print(textField.text)
+        return true
+    }
+    
+    
     
     
     func clearData(){

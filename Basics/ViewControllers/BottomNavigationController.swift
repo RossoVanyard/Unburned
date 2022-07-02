@@ -31,7 +31,7 @@ class BottomNavigationController: UITabBarController, UITabBarControllerDelegate
         case "WorkoutIcon":
             viewController = HomeScreenViewController(viewModel: HomeScreenViewModel(model: HomeScreenModel()))
         case "ProfileIcon":
-            viewController = LoginViewController(viewModel: LoginViewModel(model: LoginModel(), state: .Register))
+            viewController = ShoppingCartViewController(viewModel: ShoppingCartViewModel(model: ShoppingCartModel()))
         default:
             break
         }

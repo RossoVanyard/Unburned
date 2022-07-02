@@ -16,6 +16,7 @@ extension UIView{
         var height: CGFloat = 0
         if self.subviews.count > 1 {
             for view in self.subviews {
+                
                 height = height + view.bounds.size.height
             }
         } else {
@@ -24,5 +25,8 @@ extension UIView{
         
         return height
     }
-    
 }
+
+
+
+

@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+protocol ShoppingCartModelProtocol {
+    
+}
+
+
+class ShoppingCartModel: ShoppingCartModelProtocol{
+    
+}

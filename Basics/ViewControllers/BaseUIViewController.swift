@@ -21,7 +21,6 @@ class BaseUIViewController: UIViewController, BaseVCProtocol{
     var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .blue
         return view
     }()
     
@@ -60,15 +59,7 @@ class BaseUIViewController: UIViewController, BaseVCProtocol{
         var height: CGFloat = constant
         for i in 0..<(uiViews.count-1){
             height = height + uiViews[i].bounds.size.height
-            
         }
-        /*
-        for view in uiViews {
-            //height = height + view.getHeight()
-            height = height + view.bounds.size.height
-            print("\(view) has the height \(view.bounds.size.height) which adds up to \(height)")
-        }*/
-        
         self.scrollView.contentSize  = CGSize(width: UIScreen.main.bounds.size.width, height: height)
 
     }

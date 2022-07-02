@@ -18,26 +18,44 @@ import UIKit
 
 //TODO: change Logo
 
+protocol LoginVCProtocol {
+    // injects dependancies via protocol injection
+    var viewModel: LoginViewModelProtocol {get set}
+    func initHomeScreenViewController()
+    func selectorChanged()
+}
 
-class Login_viewController: UIViewController, LoginDisplayDelegate{
-    //MARK: MVVM
-    let viewModel: LoginViewModel
-   
+
+class LoginViewController: BaseUIViewController, LoginVCProtocol, LoginDisplayProtocol, LoginDisplayDelegate  {
     
-    //MARK: Protocol variables
+    
+    
+    
+    
+    //MARK: MVVM
+    var viewModel: LoginViewModelProtocol
+    
+    
+    
+    //MARK: Display
     var logo: UIImageView?
     var logoConstrains: [NSLayoutConstraint]?
+    
+    var segementControl: LoginRegisterSegmentControl?
+    var segmentControlConstrains: [NSLayoutConstraint]?
+    
     var loginPanel: LoginPanel?
     var loginPanelConstrains: [NSLayoutConstraint]?
     
     
-    init(loginViewModel: LoginViewModel) {
-        self.viewModel = loginViewModel
-        super.init(nibName: nil, bundle: nil) //# or NIB name here if you'll use xib file
+    init(viewModel: LoginViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init() //# or NIB name here if you'll use xib file
+        self.viewModel.delegate = self
         self.mountLogo()
+        self.mountSegmentControl()
         self.mountLoginPanel()
-        
-        
+        self.mountButton()
     }
     
     required init?(coder: NSCoder) {
@@ -46,10 +64,38 @@ class Login_viewController: UIViewController, LoginDisplayDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupLogo()
-        self.setupLoginPanel()
-        self.view.backgroundColor = .blue
+        guard let logo = self.logo else { return }
+        self.scrollView.addSubview(logo)
+        guard let segementControl = self.segementControl else {return}
+        self.scrollView.addSubview(segementControl)
+        guard let loginPanel = self.loginPanel else { return }
+        self.scrollView.addSubview(loginPanel)
+        guard let loginRegisterButton = self.loginRegisterButton else { return }
+        self.scrollView.addSubview(loginRegisterButton)
         
+        self.selectorChanged()
+        
+    }
+    
+    func selectorChanged() {
+        print("te")
+        self.setupLogo()
+        self.setupSegmentControl()
+        self.setupLoginPanel()
+        self.setupButton()
+        self.loginPanel?.changeInputContainerLayout()
+        self.updateLayout()
+    }
+    
+    func updateLayout(){
+        self.scrollView.layoutIfNeeded()
+        self.viewDidLayoutSubviews()
+    }
+   
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.setHeight(uiViews: self.scrollView.subviews, constant: UIScreen.main.bounds.height * 0.05 * CGFloat((self.scrollView.subviews.count)))
     }
     
     
@@ -57,48 +103,80 @@ class Login_viewController: UIViewController, LoginDisplayDelegate{
     func mountLogo() {
         self.logo = UIImageView(image: UIImage(named: "example"))
         self.logo?.translatesAutoresizingMaskIntoConstraints = false
+        self.logo?.backgroundColor = .red
     }
     
     func setupLogo() {
         guard let logo = self.logo else { return }
-        self.view.addSubview(logo)
-        logo.backgroundColor = .red
-        
         if let constraints = self.logoConstrains {
             NSLayoutConstraint.deactivate(constraints)
         }
         
         self.logoConstrains = [
-            self.logo!.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.height * 0.05),
-            self.logo!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.logo!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
-            self.logo!.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75)
+            logo.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: UIScreen.main.bounds.height * 0.05),
+            logo.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            logo.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
+            logo.heightAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75)
             ]
         if let constraints = self.logoConstrains {
             NSLayoutConstraint.activate(constraints)
         }
     }
+    
+    //MARK: segment Control
+    func mountSegmentControl(){
+        self.segementControl = LoginRegisterSegmentControl(items: ["Login","Register"], delegate: self.viewModel)
+        self.segementControl?.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func setupSegmentControl(){
+        guard let logo = self.logo else { return }
+        guard let segementControl = self.segementControl else { return }
+        
+
+        if let constraints = self.segmentControlConstrains {
+            NSLayoutConstraint.deactivate(constraints)
+        }
+    
+        self.segmentControlConstrains = [
+            segementControl.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: UIScreen.main.bounds.height * 0.05),
+            segementControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            segementControl.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
+            segementControl.heightAnchor.constraint(equalToConstant: 50)
+        ]
+    
+        if let constraints = self.segmentControlConstrains {
+            NSLayoutConstraint.activate(constraints)
+        }
+    }
+      
+    
+    
+    
+    
+    
 
     //MARK: login panel protocol
     func mountLoginPanel(){
-        self.loginPanel = LoginPanel()
+        self.loginPanel = LoginPanel(frame: CGRect(), delegate: self.viewModel)
         self.loginPanel?.translatesAutoresizingMaskIntoConstraints = false
+        self.loginPanel?.vcDelegate = self
     }
     
     func setupLoginPanel(){
-        guard let logo = self.logo else { return }
+        guard let segmentControl = self.segementControl else { return }
         guard let loginPanel = self.loginPanel else { return }
-        self.view.addSubview(loginPanel)
+        
 
         if let constraints = self.loginPanelConstrains {
             NSLayoutConstraint.deactivate(constraints)
         }
     
         self.loginPanelConstrains = [
-            self.loginPanel!.topAnchor.constraint(equalTo: self.logo!.bottomAnchor, constant: UIScreen.main.bounds.height * 0.05),
-            self.loginPanel!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.loginPanel!.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
-            self.loginPanel!.heightAnchor.constraint(equalToConstant: self.loginPanel!.heigthNonCollapsed)
+            loginPanel.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: UIScreen.main.bounds.height * 0.05),
+            loginPanel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            loginPanel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
+            loginPanel.heightAnchor.constraint(equalToConstant: self.viewModel.state == .Login ? 100 : 200)
         ]
     
         if let constraints = self.loginPanelConstrains {
@@ -106,8 +184,44 @@ class Login_viewController: UIViewController, LoginDisplayDelegate{
         }
     }
     
-   
+    var loginRegisterButton: LoginRegisterButton?
     
+    var loginRegisterButtonConstrains: [NSLayoutConstraint]?
+    
+    func mountButton() {
+        self.loginRegisterButton = LoginRegisterButton(frame: CGRect(), delegate: self.viewModel)
+        self.loginRegisterButton?.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func setupButton() {
+        
+        guard let loginRegisterButton = self.loginRegisterButton else { return }
+        
+        if let constraints = self.loginRegisterButtonConstrains {
+            NSLayoutConstraint.deactivate(constraints)
+        }
+    
+        self.loginRegisterButtonConstrains = [
+            loginRegisterButton.topAnchor.constraint(equalTo: self.loginPanel!.bottomAnchor, constant: UIScreen.main.bounds.height * 0.05),
+            loginRegisterButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            loginRegisterButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75),
+            loginRegisterButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+    
+        if let constraints = self.loginRegisterButtonConstrains {
+            NSLayoutConstraint.activate(constraints)
+        }
+    }
+    
+    func initHomeScreenViewController(){
+        let bottomNavigationController = BottomNavigationController()
+        if #available(iOS 13.0, *) {
+            bottomNavigationController.modalPresentationStyle = .overFullScreen
+        } else {
+            // Fallback on earlier versions
+        }
+        self.present(bottomNavigationController, animated: true, completion: nil)
+    }
     
     
 }

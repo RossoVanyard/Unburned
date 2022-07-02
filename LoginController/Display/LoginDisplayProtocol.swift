@@ -10,10 +10,6 @@ import UIKit
 
 protocol LoginDisplayProtocol {
     ///implemented by VC which owns the UI Elements
-    ///
-    ///
-    ///
-    ///
     
     var logo: UIImageView? { get }
     var logoConstrains: [NSLayoutConstraint]? { get }
@@ -34,8 +30,6 @@ protocol LoginDisplayProtocol {
     var loginRegisterButtonConstrains: [NSLayoutConstraint]? { get }
     func mountButton()
     func setupButton()
-    
-    
 }
 
 protocol LoginDisplayDelegate{
