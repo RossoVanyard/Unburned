@@ -2,7 +2,7 @@
 //  BaseVCProtocol.swift
 //  Unburned
 //
-//  Created by Roland Vanhöfen on 19.06.22.
+//  Created by RossoVanyard on 19.06.22.
 //
 
 import Foundation
