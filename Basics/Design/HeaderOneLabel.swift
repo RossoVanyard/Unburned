@@ -91,3 +91,14 @@ class HeaderOneLabel: UIView, HeaderOneLabelProtocol{
     
     
 }
+
+class HeaderTwoLabel: HeaderOneLabel{
+    override init(frame: CGRect, text: String) {
+        super.init(frame: frame, text: text)
+        self.label.font = UIFont.boldSystemFont(ofSize: 16.0)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

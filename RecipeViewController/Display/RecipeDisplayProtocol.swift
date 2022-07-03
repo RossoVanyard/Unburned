@@ -29,6 +29,11 @@ protocol RecipeDisplayProtocol{
     func mountInfoCollectionView()
     func setupInfosCollectionView()
     
+    var ingredientLabel: HeaderTwoLabel {get set}
+    var ingredientLabelViewConstraints: [NSLayoutConstraint]? {get set}
+    func mountIngredientLabel()
+    func setupIngredientLabel()
+    
     var ingredientsCollectionView: UICollectionView {get set}
     var ingredientsCollectionViewConstraints: [NSLayoutConstraint]? {get set}
     func mountIngredientsCollectionView()

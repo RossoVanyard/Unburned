@@ -241,7 +241,7 @@ class LoginPanel: UIView, UITextViewDelegate, UITextFieldDelegate {
         default:
             print("")
         }
-        print(textField.text)
+        
         return true
     }
     

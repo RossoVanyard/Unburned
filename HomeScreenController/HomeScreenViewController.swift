@@ -212,7 +212,7 @@ class HomeScreenViewController: BaseUIViewController, HomeScreenViewControllerPr
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! UICollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) 
         cell.backgroundColor = .red
         switch collectionView {
             case self.filtrCollectionView:
