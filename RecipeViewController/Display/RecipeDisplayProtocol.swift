@@ -39,5 +39,10 @@ protocol RecipeDisplayProtocol{
     func mountIngredientsCollectionView()
     func setupIngredientsCollectionView()
     
+    var buttonPanel: ButtonPanel {get set}
+    var buttonPanelConstraints: [NSLayoutConstraint]? {get set}
+    func mountButtonPanel()
+    func setupButtonPanel()
+    
     
 }

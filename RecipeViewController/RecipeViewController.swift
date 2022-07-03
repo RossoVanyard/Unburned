@@ -8,9 +8,16 @@
 import Foundation
 import UIKit
 
+protocol RecipeViewControllerDelegate {
+    func initServingVC()
+    func startCooking()
+}
 
-
-class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate{
+class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate, RecipeViewControllerDelegate{
+    
+    
+    
+    
     
     var infoCellId = "inforCellId"
     var ingredientCellId = "ingredientCellId"
@@ -23,6 +30,7 @@ class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UIColle
         self.mountInfoCollectionView()
         self.mountIngredientLabel()
         self.mountIngredientsCollectionView()
+        self.mountButtonPanel()
         self.registerCells()
     }
     
@@ -40,6 +48,7 @@ class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UIColle
         self.setupInfosCollectionView()
         self.setupIngredientLabel()
         self.setupIngredientsCollectionView()
+        self.setupButtonPanel()
         self.updateLayout()
     }
     
@@ -52,6 +61,14 @@ class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UIColle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.setHeight(uiViews: self.scrollView.subviews, constant: 0)
+    }
+    
+    func initServingVC() {
+        print("init Serving VC")
+    }
+    
+    func startCooking() {
+        print("go to Cook VC")
     }
     
     var recipeImageView: RecipeImageView = {
@@ -231,7 +248,6 @@ class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UIColle
     var ingredientsPerRow: Int = 3
     var ingredientsLineSpacing: CGFloat = 10
     
-    
     var ingredientsCollectionViewConstraints: [NSLayoutConstraint]?
     
     func mountIngredientsCollectionView() {
@@ -313,4 +329,38 @@ class RecipeViewController: BaseUIViewController, RecipeDisplayProtocol, UIColle
                 return CGSize(width: 0.0, height: 0.0)
         }
     }
+    
+    var buttonPanel: ButtonPanel = {
+        let view = ButtonPanel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var buttonPanelConstraints: [NSLayoutConstraint]?
+    
+    func mountButtonPanel() {
+        self.scrollView.addSubview(self.buttonPanel)
+        self.buttonPanel.delegate = self
+    }
+    
+    func setupButtonPanel() {
+        if let constraints = self.buttonPanelConstraints {
+            NSLayoutConstraint.deactivate(constraints)
+        }
+    
+        self.buttonPanelConstraints = [
+            buttonPanel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -5),
+            buttonPanel.centerXAnchor.constraint(equalTo: self.ingredientsCollectionView.centerXAnchor),
+            buttonPanel.widthAnchor.constraint(equalTo: self.ingredientsCollectionView.widthAnchor),
+            buttonPanel.heightAnchor.constraint(equalToConstant: 60)
+        ]
+        
+    
+        if let constraints = self.buttonPanelConstraints {
+            NSLayoutConstraint.activate(constraints)
+        }
+    
+    }
+    
+    
 }

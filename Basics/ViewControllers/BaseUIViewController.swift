@@ -61,6 +61,7 @@ class BaseUIViewController: UIViewController, BaseVCProtocol{
         for i in 0..<(uiViews.count-1){
             height = height + uiViews[i].bounds.size.height
         }
+        height +=  25 // constant to bottom
         self.scrollView.contentSize  = CGSize(width: UIScreen.main.bounds.size.width, height: height)
 
     }
